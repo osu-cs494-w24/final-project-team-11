@@ -6,7 +6,7 @@ export function MainLayout() {
     return (
         <div>
             <Navbar />
-            <div style={{ marginTop: '100px' }}> {/* Adjust margin-top according to Navbar height */}
+            <div style={{ marginTop: '130px' }}> {/* Adjust margin-top according to Navbar height */}
                 <Outlet />
             </div>
         </div>

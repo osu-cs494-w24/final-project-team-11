@@ -59,7 +59,6 @@ export function Navbar({ children }) {
                     </NavList>
                 </Nav>
             </Header>
-            <Main>{children || <Outlet />}</Main>
         </>
     );
 }
