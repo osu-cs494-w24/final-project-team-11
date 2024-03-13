@@ -35,6 +35,7 @@ const LiveSportsCardItem = styled.div`
 
     p {
         font-weight: bold;
+        color: rgb(255, 128, 0);
     }
 `;
 
