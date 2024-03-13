@@ -1,9 +1,14 @@
 // src/pages/Friends.jsx
-import React from 'react';
+// src/pages/Friends.jsx
+import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import styled from '@emotion/styled';
-import friendsList from '../friends_page/data/friendsData'; // Adjust the path as necessary
+import friendsList from '../friends_page/data/friendsData';
+import BetsList from '../components/BetsList';
+import { PlaceBet } from '../components/PlaceBet';
+import { Modal } from '../components/Modal';
 
+// Styled components remain unchanged
 // Styled components
 const PageContainer = styled.div`
   display: flex;
@@ -77,31 +82,48 @@ const BetButton = styled.button`
   }
 `;
 
+
+
+
+// Styled components remain the same as provided
+
 export function Friends() {
-    return (
-        <PageContainer>
-            <FriendsList>
-                {friendsList.map(friend => (
-                    <FriendCard key={friend.id}>
-                        <Column>
-                            <Name>{friend.name}</Name>
-                            <Username>@{friend.username}</Username>
-                        </Column>
-                        <Column>
-                            <OnlineStatus status={friend.status}>{friend.status}</OnlineStatus>
-                        </Column>
-                        <Column>
-                            <BettingHistory>
-                                {friend.bettingHistory[0].match} - ${friend.bettingHistory[0].amount} - {friend.bettingHistory[0].result}
-                            </BettingHistory>
-                        </Column>
-                        <Column>
-                            <BetButton>Bet with {friend.name.split(' ')[0]}</BetButton>
-                        </Column>
-                    </FriendCard>
-                ))}
-            </FriendsList>
-            <main><Outlet /></main>
-        </PageContainer>
-    );
-}
+  const [isBetModalOpen, setIsBetModalOpen] = useState(false);
+  const [selectedFriend, setSelectedFriend] = useState(null);
+
+  const handleBetButtonClick = friend => {
+    setSelectedFriend(friend);
+    setIsBetModalOpen(true);
+  };
+
+  return (
+    <PageContainer>
+      <FriendsList>
+        {friendsList.map(friend => (
+          <FriendCard key={friend.id}>
+            <Column>
+              <Name>{friend.name}</Name>
+              <Username>@{friend.username}</Username>
+            </Column>
+            <Column>
+              <OnlineStatus status={friend.status}>{friend.status}</OnlineStatus>
+            </Column>
+            <Column>
+              <BettingHistory>
+                {friend.bettingHistory[0].match} - ${friend.bettingHistory[0].amount} - {friend.bettingHistory[0].result}
+              </BettingHistory>
+            </Column>
+            <Column>
+              <BetButton onClick={() => handleBetButtonClick(friend)}>Bet with {friend.name.split(' ')[0]}</BetButton>
+            </Column>
+          </FriendCard>
+        ))}
+      </FriendsList>
+      <BetsList />
+      <main><Outlet /></main>
+      <Modal isOpen={isBetModalOpen} onClose={() => setIsBetModalOpen(false)}>
+        <PlaceBet friend={selectedFriend} onClose={() => setIsBetModalOpen(false)} />
+      </Modal>
+    </PageContainer>
+  );
+};
