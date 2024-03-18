@@ -24,6 +24,7 @@ export function BetConfirmation() {
       <Heading>Bet Placed Successfully!</Heading>
       <Details>Event: {betDetails.eventName}</Details>
       <Details>Bet Amount: ${betDetails.amount}</Details>
+      <Details>Friends Adjusted Odds: {betDetails.friendOdds}</Details>
     </Container>
   );
 }

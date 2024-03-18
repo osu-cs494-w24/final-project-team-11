@@ -67,6 +67,7 @@ export function LiveScores() {
     // Function to handle sport click
     const handleSportClick = (key) => {
         setSelectedSportKey(key);
+        updateLiveOdds(key); // Update live odds in context
     };
 
     return (
