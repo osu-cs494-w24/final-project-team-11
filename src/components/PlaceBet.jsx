@@ -1,9 +1,11 @@
+
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
-import { useBetting } from './BettingContext';
 import { Modal } from './Modal';
 import { adjustOddsForFriend } from '../OddsUtils';
+import { placeBet, setEvents } from '../redux/userSlice'; // Assume setEvents is for fetching events
 
 const FormContainer = styled.form`
   display: flex;
@@ -94,10 +96,10 @@ const Button = styled.button`
     background-color: #1565c0; /* Slightly lighter on hover */
   }
 `;
-
 export function PlaceBet({ friend, onClose }) {
   const navigate = useNavigate();
-  const { placeBet, events } = useBetting();
+  const dispatch = useDispatch();
+  const events = useSelector(state => state.user.events); // Accessing events from the Redux store
   const [selectedEventId, setSelectedEventId] = useState('');
   const [betAmount, setBetAmount] = useState('');
 
@@ -114,63 +116,33 @@ export function PlaceBet({ friend, onClose }) {
       return;
     }
 
-    const friendAmount = betAmount;
-
     const betDetails = {
       friendId: friend.id,
       eventId: selectedEventId,
       amount: parseFloat(betAmount),
       eventName: selectedEvent.name,
       userOdds: selectedEvent.odds,
-      friendOdds: adjustOddsForFriend(selectedEvent.odds, parseFloat(betAmount), friendAmount),
-
+      friendOdds: adjustOddsForFriend(selectedEvent.odds, parseFloat(betAmount)),
     };
 
-    placeBet(betDetails);
-    onClose();
-    navigate('/bet-confirmation', { state: { betDetails } });
+    dispatch(placeBet(betDetails)); // Dispatch action to place a bet
+    onClose(); // Close the modal
+    navigate('/bet-confirmation', { state: { betDetails } }); // Navigate to the bet confirmation page
   };
-
-  const selectedEvent = events.find(event => event.id === selectedEventId);
 
   return (
     <Modal isOpen={true} onClose={onClose}>
       <FormContainer onSubmit={handleSubmit}>
-        <BettersContainer>
-          <BetterCard>
-            <Title>You</Title>
-            <Info>
-              <Label>Your Odds:</Label>
-              <Value>{selectedEvent?.odds || 'Select an event'}</Value>
-            </Info>
-            <Info>
-              <Label>Amount:</Label>
-              <Value>${betAmount || '0'}</Value>
-            </Info>
-          </BetterCard>
-          <BetterCard>
-            <Title>{friend.name}</Title>
-            <Info>
-              <Label>Friend's Odds:</Label>
-              <Value>{selectedEvent?.odds || 'TBD'}</Value> {/* Adjust based on your logic */}
-            </Info>
-            <Info>
-              <Label>Amount:</Label>
-              <Value>${betAmount || '0'}</Value> {/* Mirror amount for simplicity; adjust as needed */}
-            </Info>
-          </BetterCard>
-        </BettersContainer>
+        <Title>Place Your Bet</Title>
         <Select
           value={selectedEventId}
           onChange={(e) => setSelectedEventId(e.target.value)}
           required
         >
           <option value="">Select an event</option>
-          {events.map(event => (
-  <option key={event.id} value={event.id}>
-    {event.name} - Odds: {event.odds}
-  </option>
-))}
+          {events.map((event) => (
+            <option key={event.id} value={event.id}>{event.name} - Odds: {event.odds}</option>
+          ))}
         </Select>
         <Input
           type="number"

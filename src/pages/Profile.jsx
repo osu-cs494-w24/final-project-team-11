@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import { useBetting } from '../components/BettingContext';
 import UserInformation from '../profile_page/UserInformation';
@@ -44,21 +45,25 @@ const Title = styled.h2`
 `;
 
 export function Profile() {
-  const { user, bets } = useBetting();
-
-  return (
-    <ProfileContainer>
-      <Sidebar>
-        <UserInformation user={user} />
-        <WalletBalance balance={user.balance} />
-        <Settings />
-      </Sidebar>
-      <MainContent>
-        <Section>
-          <Title>Betting History</Title>
-          <BettingHistory bets={bets} />
-        </Section>
-      </MainContent>
-    </ProfileContainer>
-  );
-}
+    const { user, bets } = useSelector((state) => state.user);
+  
+    if (!user) {
+      return <div>Loading...</div>; // Or any other loading state
+    }
+  
+    return (
+      <ProfileContainer>
+        <Sidebar>
+          <UserInformation user={user} />
+          <WalletBalance balance={user.balance} />
+          <Settings />
+        </Sidebar>
+        <MainContent>
+          <Section>
+            <Title>Betting History</Title>
+            <BettingHistory bets={bets} />
+          </Section>
+        </MainContent>
+      </ProfileContainer>
+    );
+    }
