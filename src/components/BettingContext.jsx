@@ -27,7 +27,7 @@ export const useBetting = () => useContext(BettingContext);
 const dummyLiveOdds = [
   {
     id: '1',
-    name: 'Event 1',
+    name: 'Montana St. vs. Grambling St.',
     bookmakers: [
       {
         markets: [
@@ -35,12 +35,81 @@ const dummyLiveOdds = [
             key: 'h2h',
             outcomes: [
               {
-                name: 'Team A',
-                price: 1.5,
+                name: 'Montana St.',
+                price: -120,
               },
               {
-                name: 'Team B',
-                price: 2.3,
+                name: 'Grambling St',
+                price: 135,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: '2',
+    name: 'Oregon St. vs. Eastern Washington',
+    bookmakers: [
+      {
+        markets: [
+          {
+            key: 'h2h',
+            outcomes: [
+              {
+                name: 'Oregon St.',
+                price: -150,
+              },
+              {
+                name: 'Eastern Washington',
+                price: 510,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: '3',
+    name: 'North Carolina vs. Wagner',
+    bookmakers: [
+      {
+        markets: [
+          {
+            key: 'h2h',
+            outcomes: [
+              {
+                name: 'North Carolina',
+                price: -120,
+              },
+              {
+                name: 'Wagner',
+                price: 610,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: '4',
+    name: 'Texas vs. Colorado St.',
+    bookmakers: [
+      {
+        markets: [
+          {
+            key: 'h2h',
+            outcomes: [
+              {
+                name: 'Texas',
+                price: -150,
+              },
+              {
+                name: 'Colorado St.',
+                price: 350,
               },
             ],
           },
@@ -51,7 +120,7 @@ const dummyLiveOdds = [
   // Add the rest of the dummyLiveOdds data here as in your given structure
   {
     id: '6',
-    name: 'Event 6',
+    name: 'Quinnipiac vs. Wisconsin',
     bookmakers: [
       {
         markets: [
@@ -59,12 +128,12 @@ const dummyLiveOdds = [
             key: 'h2h',
             outcomes: [
               {
-                name: 'Team I',
-                price: 1.6,
+                name: 'Quinnipiac',
+                price: 240,
               },
               {
-                name: 'Team J',
-                price: 2.4,
+                name: 'Wisconsin',
+                price: -140,
               },
             ],
           },
