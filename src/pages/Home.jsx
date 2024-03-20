@@ -47,8 +47,7 @@ export function Home() {
             <p id="hometext">Today's Events</p>
             {isLoading && <Spinner />}
             <EventsContainer>
-                {data && eventsData.map(e => (<Event event={e} data={data}/>)
-                )}
+                <Event data={data} />
             </EventsContainer>
             <main><Outlet /> </main>
         </>
