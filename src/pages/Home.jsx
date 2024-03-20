@@ -1,6 +1,5 @@
 import {  Outlet } from 'react-router-dom'
 import styled from '@emotion/styled'
-import eventsData from '../../public/EventDummy.json'
 import Event from '../components/Event'
 import { useQuery } from '@tanstack/react-query'
 import { useState, useEffect } from 'react'
