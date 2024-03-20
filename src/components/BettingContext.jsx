@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import friendsList from '../friends_page/data/friendsData';
 import { useDispatch } from 'react-redux';
 import { placeBet } from '../redux/bettingHistorySlice';
 import { decreaseBalance } from '../redux/walletSlice';
