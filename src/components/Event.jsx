@@ -103,14 +103,15 @@ const BetButton = styled.button`
   }
 `;
 
-
+var gameBet = []
 
 export default function Event(props) {
     const data = props.data
     const [isBetModalOpen, setIsBetModalOpen] = useState(false);
 
-    const handleBetButtonClick = () => {
+    const handleBetButtonClick = (game) => {
         //setSelectedFriend(friend);
+        gameBet = game
         setIsBetModalOpen(true);
       };
 
@@ -130,10 +131,10 @@ export default function Event(props) {
                     </div>
                     <div class="score-odds-box">
                         <div class="home-score">
-                            <BetButton class="odds" onClick={() => handleBetButtonClick()}>{game.bookmakers && game?.bookmakers[0].markets[0].outcomes[0].price}</BetButton>
+                            <BetButton class="odds" onClick={() => handleBetButtonClick(game)}>{game.bookmakers && game?.bookmakers[0].markets[0].outcomes[0].price}</BetButton>
                         </div>
                         <div class="away-score">
-                            <BetButton class="odds" onClick={() => handleBetButtonClick()}>{game.bookmakers && game?.bookmakers[0].markets[0].outcomes[1].price}</BetButton>
+                            <BetButton class="odds" onClick={() => handleBetButtonClick(game)}>{game.bookmakers && game?.bookmakers[0].markets[0].outcomes[1].price}</BetButton>
                         </div>
                     </div>
                     
@@ -142,11 +143,11 @@ export default function Event(props) {
                     <p>{game.commence_time.slice(0, 10)}</p>
                     <p>{game.commence_time.slice(11,19)} UTC</p>
                 </div>
-                <Modal isOpen={isBetModalOpen} onClose={() => setIsBetModalOpen(false)}>
-                    <EventBet event={game} onClose={() => setIsBetModalOpen(false)} />
-                </Modal>
                 </EventBox>
             ))}
+            <Modal isOpen={isBetModalOpen} onClose={() => setIsBetModalOpen(false)}>
+                    <EventBet event={gameBet} onClose={() => setIsBetModalOpen(false)} />
+            </Modal>
         </div>
     )
 }
