@@ -1,6 +1,6 @@
 import styled from '@emotion/styled'
 import { Modal } from '../components/Modal'
-import { PlaceBet } from '../components/PlaceBet'
+import { EventBet } from '../components/EventBet'
 import { Outlet } from 'react-router-dom'
 import { useState } from 'react'
 
@@ -107,6 +107,7 @@ const BetButton = styled.button`
 
 export default function Event(props) {
     const event = props.event
+    const data = props.data
     const [isBetModalOpen, setIsBetModalOpen] = useState(false);
 
     const handleBetButtonClick = () => {
@@ -116,41 +117,36 @@ export default function Event(props) {
 
     return (
         <div class="page-container">
-            <EventBox>
-                <div class="teams-score-box">
+            {data && data.map((game, index) => (
+                <EventBox>
+                    <div class="teams-score-box">
                     <div class="team-box">
                         <div class="home-logo-team-name">
-                            <img src={event.home_img}/>
-                            <h1>{event.home_team}</h1>
+                            <h1>{game.home_team}</h1>
                         </div>
                         <div class="away-logo-team-name">
-                            <img src={event.away_img}/>
-                            <h1>{event.away_team}</h1>
+                            <h1>{game.away_team}</h1>
                         </div>
                     </div>
                     <div class="score-odds-box">
                         <div class="home-score">
-                            <h1 class="score">{event.home_score}</h1>
-                            <h1 class="odds">{event.home_spread}</h1>
-                            <h1 class="odds">{event.home_ml}</h1>
+                            <BetButton class="odds" onClick={() => handleBetButtonClick()}>{game.bookmakers && game?.bookmakers[0].markets[0].outcomes[0].price}</BetButton>
                         </div>
                         <div class="away-score">
-                            <h1 class="score">{event.away_score}</h1>
-                            <h1 class="odds">{event.away_spread}</h1>
-                            <h1 class="odds">{event.away_ml}</h1>
+                            <BetButton class="odds" onClick={() => handleBetButtonClick()}>{game.bookmakers && game?.bookmakers[0].markets[0].outcomes[1].price}</BetButton>
                         </div>
                     </div>
                     <BetButton  onClick={() => handleBetButtonClick()}> Bet </BetButton>
                 </div>
                 <div class="date-time">
-                    <p>{event.date}</p>
-                    <p>{event.cur_inning}</p>
-                    <p>{event.time}</p>
+                    <p>{game.commence_time.slice(0, 10)}</p>
+                    <p>{game.commence_time.slice(11,19)} UTC</p>
                 </div>
-            </EventBox>
-            <Modal isOpen={isBetModalOpen} onClose={() => setIsBetModalOpen(false)}>
-                <PlaceBet friend="John" onClose={() => setIsBetModalOpen(false)} />
-            </Modal>
+                <Modal isOpen={isBetModalOpen} onClose={() => setIsBetModalOpen(false)}>
+                    <EventBet event={game} onClose={() => setIsBetModalOpen(false)} />
+                </Modal>
+                </EventBox>
+            ))}
         </div>
     )
 }
