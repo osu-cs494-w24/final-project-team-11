@@ -118,33 +118,34 @@ export default function Event(props) {
     return (
         <div class="page-container">
             {data && data.map((game, index) => (
-                <EventBox>
-                    <div class="teams-score-box">
-                    <div class="team-box">
-                        <div class="home-logo-team-name">
-                            <h1>{game.home_team}</h1>
+                <EventBox key={index}> {/* Add key prop to avoid React warnings */}
+                    {game && ( // Add a check for game to avoid accessing undefined properties
+                        <div className="teams-score-box">
+                            <div className="team-box">
+                                <div className="home-logo-team-name">
+                                    <h1>{game.home_team}</h1>
+                                </div>
+                                <div className="away-logo-team-name">
+                                    <h1>{game.away_team}</h1>
+                                </div>
+                            </div>
+                            <div className="score-odds-box">
+                                <div className="home-score">
+                                    <BetButton className="odds" onClick={() => handleBetButtonClick()}>{game.bookmakers && game?.bookmakers[0].markets[0].outcomes[0].price}</BetButton>
+                                </div>
+                                <div className="away-score">
+                                    <BetButton className="odds" onClick={() => handleBetButtonClick()}>{game.bookmakers && game?.bookmakers[0].markets[0].outcomes[1].price}</BetButton>
+                                </div>
+                            </div>
+                            <div className="date-time">
+                                <p>{game.commence_time?.slice(0, 10)}</p> {/* Add a check for commence_time */}
+                                <p>{game.commence_time?.slice(11, 19)} UTC</p> {/* Add a check for commence_time */}
+                            </div>
+                            <Modal isOpen={isBetModalOpen} onClose={() => setIsBetModalOpen(false)}>
+                                <EventBet event={game} onClose={() => setIsBetModalOpen(false)} />
+                            </Modal>
                         </div>
-                        <div class="away-logo-team-name">
-                            <h1>{game.away_team}</h1>
-                        </div>
-                    </div>
-                    <div class="score-odds-box">
-                        <div class="home-score">
-                            <BetButton class="odds" onClick={() => handleBetButtonClick()}>{game.bookmakers && game?.bookmakers[0].markets[0].outcomes[0].price}</BetButton>
-                        </div>
-                        <div class="away-score">
-                            <BetButton class="odds" onClick={() => handleBetButtonClick()}>{game.bookmakers && game?.bookmakers[0].markets[0].outcomes[1].price}</BetButton>
-                        </div>
-                    </div>
-                    
-                </div>
-                <div class="date-time">
-                    <p>{game.commence_time.slice(0, 10)}</p>
-                    <p>{game.commence_time.slice(11,19)} UTC</p>
-                </div>
-                <Modal isOpen={isBetModalOpen} onClose={() => setIsBetModalOpen(false)}>
-                    <EventBet event={game} onClose={() => setIsBetModalOpen(false)} />
-                </Modal>
+                    )}
                 </EventBox>
             ))}
         </div>
