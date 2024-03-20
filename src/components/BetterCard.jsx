@@ -10,7 +10,7 @@ const CardContainer = styled.div`
   border-radius: 10px;
   padding: 20px;
   margin: 10px;
-  width: 100%;
+  width: 80%;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   color: white;
   font-family: 'Roboto', sans-serif; /* Default font for the card */

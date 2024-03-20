@@ -45,15 +45,15 @@ const UserStatus = styled.span`
 `;
 
 export default function UserInformation() {
-  // Accessing the user state from the Redux store
   const user = useSelector((state) => state.user.user);
+  const balance = useSelector((state) => state.wallet.balance);
 
   return (
     <UserInfoContainer>
       <ProfilePic src={user.profilePic || myProfilePic} alt="Profile" />
       <UserName>{user.name}</UserName>
       <UserEmail>{user.email}</UserEmail>
-      <UserStatus>Balance: ${user.balance.toFixed(2)}</UserStatus>
+      <UserStatus>Balance: ${balance ? balance.toFixed(2) : '0.00'}</UserStatus>
       {/* You can add more user information elements here */}
     </UserInfoContainer>
   );
