@@ -111,11 +111,7 @@ export function EventBet({ event, onClose }) {
 
     console.log("selected friend id: ", selectedFriendId)
     console.log("friends: ", friends[7].id)
-    const selectedFriend = friends.find(friend => friend.id === selectedFriendId);
-    if (!selectedFriend) {
-      alert("Selected event not found.");
-      return;
-    }
+    
 
     const friendAmount = betAmount;
 
