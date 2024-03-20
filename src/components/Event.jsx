@@ -136,7 +136,7 @@ export default function Event(props) {
                             <BetButton class="odds" onClick={() => handleBetButtonClick()}>{game.bookmakers && game?.bookmakers[0].markets[0].outcomes[1].price}</BetButton>
                         </div>
                     </div>
-                    <BetButton  onClick={() => handleBetButtonClick()}> Bet </BetButton>
+                    
                 </div>
                 <div class="date-time">
                     <p>{game.commence_time.slice(0, 10)}</p>
