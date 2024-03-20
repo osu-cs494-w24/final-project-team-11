@@ -6,9 +6,9 @@ export function MainLayout() {
   return (
     <div>
       <Navbar />
-      <div style={{ marginTop: '130px' }}>
+      {/* <div style={{ marginTop: '130px' }}> */}
         <Outlet />
       </div>
-    </div>
+    // </div>
   );
 }

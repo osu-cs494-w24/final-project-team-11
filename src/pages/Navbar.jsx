@@ -1,137 +1,156 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import BetClashLogo from '../assets/BetClashLogo.jpg';
-import { FaUser, FaBell } from 'react-icons/fa';
+import myProfilePic from '../assets/myProfilePic.jpg';
+import { FaUser, FaBell, FaBars, FaTimes } from 'react-icons/fa';
 
 const Header = styled.header`
-  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
-  background-color: #1c1c1c;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  font-family: 'Roboto', sans-serif;
-  z-index: 999;
+    background-color: #1c1c1c;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif;
+    z-index: 999;
 `;
 
 const Logo = styled.img`
-  height: 50px;
-  width: auto;
+    height: 50px;
+    width: auto;
+    margin-left: auto;
 `;
 
 const Nav = styled.nav`
-  display: flex;
-  align-items: center;
+    position: fixed;
+    top: 0;
+    left: ${({ isOpen }) => (isOpen ? '0' : '-100%')};
+    width: 250px;
+    height: 100%;
+    background-color: #1c1c1c;
+    transition: left 0.3s;
+    padding: 80px 20px 20px;
+    z-index: 998;
 `;
 
 const NavList = styled.ul`
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
 `;
 
 const NavLinkStyled = styled(NavLink)`
-  color: #ffffff;
-  text-decoration: none;
-  padding: 10px 15px;
-  margin-right: 10px;
-  font-weight: 500;
-  position: relative;
-  transition: color 0.3s;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 15px 0;
+    font-size: 18px;
+    font-weight: 500;
+    transition: color 0.3s;
+    display: block;
 
-  &:hover {
-    color: #ffcc00;
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background-color: #ffcc00;
-    transform: scaleX(0);
-    transition: transform 0.3s;
-  }
-
-  &.active {
-    color: #ffcc00;
-
-    &::after {
-      transform: scaleX(1);
+    &:hover {
+        color: #ffcc00;
     }
-  }
+
+    &.active {
+        color: #ffcc00;
+    }
 `;
 
 const UserProfile = styled.div`
-  display: flex;
-  align-items: center;
-  color: #ffffff;
-  margin-left: 20px;
-  cursor: pointer;
-`;
+    display: flex;
+    align-items: center;
+    color: #ffffff;
+    margin-top: 30px;
+    cursor: pointer;
+    transition: color 0.3s;
 
+    &:hover {
+        color: #ffcc00;
+    }
+`;
 const UserAvatar = styled.img`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  margin-right: 10px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
 `;
 
 const UserName = styled.span`
-  font-weight: 500;
+    font-weight: 500;
 `;
 
 const NotificationIcon = styled(FaBell)`
-  font-size: 20px;
-  color: #ffffff;
-  margin-left: 20px;
-  cursor: pointer;
-  transition: color 0.3s;
+    font-size: 24px;
+    color: #ffffff;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: color 0.3s;
 
-  &:hover {
-    color: #ffcc00;
-  }
+    &:hover {
+        color: #ffcc00;
+    }
 `;
 
-export function Navbar({ children }) {
-  return (
-    <>
-      <Header>
-        <Logo src={BetClashLogo} alt="BetClash Logo" />
-        <Nav>
-          <NavList>
-            <NavLinkStyled exact to="/" activeClassName="active">
-              Home
-            </NavLinkStyled>
-            <NavLinkStyled to="/profile" activeClassName="active">
-              Profile
-            </NavLinkStyled>
-            <NavLinkStyled to="/friends" activeClassName="active">
-              Friends
-            </NavLinkStyled>
-            <NavLinkStyled to="/livescores" activeClassName="active">
-              Live Scores
-            </NavLinkStyled>
-          </NavList>
-          <UserProfile>
-            <UserAvatar src="path/to/user/avatar.jpg" alt="User Avatar" />
-            <UserName>John Doe</UserName>
-          </UserProfile>
-          <NotificationIcon />
-        </Nav>
-      </Header>
-      <Outlet />
-    </>
-  );
+const HamburgerButton = styled.button`
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 24px;
+    cursor: pointer;
+    margin-right: 20px;
+`;
+
+export function Navbar() {
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggleMenu = () => {
+        setIsOpen(!isOpen);
+    };
+
+    return (
+        <>
+            <Header>
+                <HamburgerButton onClick={toggleMenu}>
+                    {isOpen ? <FaTimes /> : <FaBars />}
+                </HamburgerButton>
+                <Logo src={BetClashLogo} alt="BetClash Logo" />
+            </Header>
+            {isOpen && (
+                <Nav isOpen={isOpen}>
+                    <NavList> 
+                      
+                      <NavLinkStyled to="/profile" activeClassName="active" onClick={toggleMenu}>
+                    <UserProfile>
+                        <UserAvatar src= {myProfilePic} alt="Profile" />
+                        <UserName>Rob Hess</UserName>
+                    </UserProfile>
+                        </NavLinkStyled>
+                        <NavLinkStyled exact to="/" activeClassName="active" onClick={toggleMenu}>
+                            Home
+                        </NavLinkStyled>
+                        
+                        <NavLinkStyled to="/friends" activeClassName="active" onClick={toggleMenu}>
+                            Friends
+                        </NavLinkStyled>
+                        <NavLinkStyled to="/livescores" activeClassName="active" onClick={toggleMenu}>
+                            Live Scores
+                        </NavLinkStyled>
+                    </NavList>
+
+                   
+
+
+                    
+                    <NotificationIcon />
+                </Nav>
+            )}
+            <Outlet />
+        </>
+    );
 }
