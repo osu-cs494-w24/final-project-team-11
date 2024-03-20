@@ -38,7 +38,7 @@ export function LiveScores() {
         queryFn: async () => {
             console.log('== query function called');
             const res = await fetch(
-                `https://api.the-odds-api.com/v4/sports/?apiKey=d09f331a139f9a05ca57d9935df6d9ef`
+                `https://api.the-odds-api.com/v4/sports/?apiKey=c96a4579526786c631a6ef52a9f35e59`
             );
             const jsonData = await res.json();
             console.log("== API Response:", jsonData); // Log the API response

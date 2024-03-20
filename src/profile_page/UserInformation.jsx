@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import myProfilePic from '../../public/assets/images/myProfilePic.jpg'; // Adjust the path based on your structure
+import myProfilePic from '../../public/assets/BetClashLogo.jpg'; // Adjust the path based on your structure
 
 
 const UserInfoContainer = styled.div`

@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
 import { useBetting } from './BettingContext';
 import { Modal } from './Modal';
-import { adjustOddsForFriend } from '../OddsUtils';
+import { adjustOddsForFriend } from '../OddsUtil';
 
 const FormContainer = styled.form`
   display: flex;

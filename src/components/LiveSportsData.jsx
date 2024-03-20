@@ -71,14 +71,13 @@ export default function LiveSportsData({ sport }) {
         return <div>Error: {error.message}</div>;
     }
 
-    // Check if scoreData is undefined or null
-    if (!scoreData) {
-        return <div>No live sports data available</div>;
+    if (!Array.isArray(scoreData)) {
+        return <div>Live sports data is not in the expected format</div>;
     }
-
+    
     // Filter liveData if necessary
     const filteredLiveData = scoreData.filter(game => !game.completed && game.scores);
-
+    
     // If there are no live games with scores, display a message
     if (filteredLiveData.length === 0) {
         return <div>No live games available</div>;
