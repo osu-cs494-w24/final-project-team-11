@@ -24,18 +24,18 @@ const EventBox = styled.div`
 
     .team-box {
         width: 60%;
-        margin-right: -5%;
+        margin-right: 5%;
     }
 
     .home-logo-team-name {
         display: flex;
-        margin-left: 4%;
+        margin-left: 5%;
         margin-top: 2.5%;
     }
 
     .away-logo-team-name {
         display: flex;
-        margin-left: 4%;
+        margin-left: 5%;
         margin-top: 2.5%;
     }
 
@@ -51,13 +51,13 @@ const EventBox = styled.div`
 
     .home-score {
         display: flex;
-        margin-top: 9%;
+        margin-top: 20%;
         align-items: center;
     }
 
     .away-score {
         display: flex;
-        margin-top: 16%;
+        margin-top: 60%;
         align-items: center;
     }
 
