@@ -1,9 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
-import { useBetting } from '../components/BettingContext';
-import UserInformation from '../profile_page/UserInformation';
-import WalletBalance from '../profile_page/WalletBalance';
+import UserInformation from '../components/UserInformation';
+import WalletBalance from '../components/WalletBalance';
 import BettingHistory from '../components/BettingHistory';
 import Settings from '../components/Settings';
 
@@ -45,25 +44,25 @@ const Title = styled.h2`
 `;
 
 export function Profile() {
-    const { user, bets } = useSelector((state) => state.user);
-  
-    if (!user) {
-      return <div>Loading...</div>; // Or any other loading state
-    }
-  
-    return (
-      <ProfileContainer>
-        <Sidebar>
-          <UserInformation user={user} />
-          <WalletBalance balance={user.balance} />
-          <Settings />
-        </Sidebar>
-        <MainContent>
-          <Section>
-            <Title>Betting History</Title>
-            <BettingHistory bets={bets} />
-          </Section>
-        </MainContent>
-      </ProfileContainer>
-    );
-    }
+  const user = useSelector((state) => state.user.user);
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <ProfileContainer>
+      <Sidebar>
+        <UserInformation user={user} />
+        <WalletBalance balance={user.balance} />
+        <Settings />
+      </Sidebar>
+      <MainContent>
+        <Section>
+          <Title>Betting History</Title>
+          <BettingHistory bets={bets} />
+        </Section>
+      </MainContent>
+    </ProfileContainer>
+  );
+}

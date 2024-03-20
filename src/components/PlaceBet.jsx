@@ -1,11 +1,10 @@
-
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
+import { useBetting } from './BettingContext';
 import { Modal } from './Modal';
 import { adjustOddsForFriend } from '../OddsUtils';
-import { placeBet, setEvents } from '../redux/userSlice'; // Assume setEvents is for fetching events
+import BetterCard from './BetterCard'; // Importing BetterCard component
 
 const FormContainer = styled.form`
   display: flex;
@@ -13,12 +12,12 @@ const FormContainer = styled.form`
   gap: 20px;
   align-items: center;
   justify-content: center;
-  background-color: #121212; /* Dark mode background */
+  background-color: #121212;
   padding: 40px;
   border-radius: 12px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(5px);
-  border: 1px solid rgba(255, 255, 255, 0.3); /* Slight border for depth */
+  border: 1px solid rgba(255, 255, 255, 0.3);
 `;
 
 const BettersContainer = styled.div`
@@ -28,47 +27,12 @@ const BettersContainer = styled.div`
   width: 100%;
 `;
 
-const BetterCard = styled.div`
-  background-color: #232323; /* Slightly lighter than the form background for contrast */
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.2);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-`;
-
-const Title = styled.h2`
-  font-size: 1.5rem;
-  margin: 0;
-  color: #E0E0E0; /* Light grey for titles */
-`;
-
-const Info = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  text-align: left;
-`;
-
-const Label = styled.span`
-  font-size: 0.9rem;
-  color: #BDBDBD; /* Soft white for labels */
-`;
-
-const Value = styled.span`
-  font-size: 1rem;
-  color: #FFFFFF; /* Bright white for contrast and readability */
-  font-weight: 600;
-`;
-
 const Select = styled.select`
   width: 100%;
   padding: 10px;
   margin-bottom: 20px;
-  background-color: #333333; /* Dark background for dropdown */
-  color: #fff; /* Text color */
+  background-color: #333333;
+  color: #fff;
   border-radius: 4px;
   border: 1px solid rgba(255, 255, 255, 0.2);
 `;
@@ -87,63 +51,103 @@ const Button = styled.button`
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
-  background-color: #0d47a1; /* Bright color for the button */
+  background-color: #0d47a1;
   color: white;
   cursor: pointer;
   transition: background-color 0.2s;
 
   &:hover {
-    background-color: #1565c0; /* Slightly lighter on hover */
+    background-color: #1565c0;
   }
 `;
+
 export function PlaceBet({ friend, onClose }) {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const events = useSelector(state => state.user.events); // Accessing events from the Redux store
+  const { placeBet, events } = useBetting();
   const [selectedEventId, setSelectedEventId] = useState('');
   const [betAmount, setBetAmount] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!selectedEventId || !betAmount) {
-      alert("Please select an event and enter an amount.");
+      alert('Please select an event and enter an amount.');
       return;
     }
 
-    const selectedEvent = events.find(event => event.id === selectedEventId);
+    const selectedEvent = events.find((event) => event.id === selectedEventId);
     if (!selectedEvent) {
-      alert("Selected event not found.");
+      alert('Selected event not found.');
       return;
     }
+
+    const eventOdds = selectedEvent.bookmakers?.[0]?.markets?.find((market) => market.key === 'h2h');
+    if (!eventOdds) {
+      alert('Live odds not available for the selected event.');
+      return;
+    }
+    const userOdds = eventOdds.outcomes[0].price;
+    const friendOdds = adjustOddsForFriend(userOdds, parseFloat(betAmount), parseFloat(betAmount));
 
     const betDetails = {
       friendId: friend.id,
       eventId: selectedEventId,
       amount: parseFloat(betAmount),
       eventName: selectedEvent.name,
-      userOdds: selectedEvent.odds,
-      friendOdds: adjustOddsForFriend(selectedEvent.odds, parseFloat(betAmount)),
+      userOdds: userOdds,
+      friendOdds: friendOdds,
     };
 
-    dispatch(placeBet(betDetails)); // Dispatch action to place a bet
-    onClose(); // Close the modal
-    navigate('/bet-confirmation', { state: { betDetails } }); // Navigate to the bet confirmation page
+    placeBet(betDetails);
+    onClose();
+    navigate('/bet-confirmation', { state: { betDetails } });
   };
 
+  // Using BetterCard for displaying the bet information
   return (
     <Modal isOpen={true} onClose={onClose}>
       <FormContainer onSubmit={handleSubmit}>
-        <Title>Place Your Bet</Title>
+        <BettersContainer>
+          <BetterCard
+            name="You"
+            odds={events.find((event) => event.id === selectedEventId)?.bookmakers?.[0]?.markets?.find(
+              (market) => market.key === 'h2h'
+            )?.outcomes[0].price || 'Select an event'}
+            amount={betAmount || '0'}
+          />
+          <BetterCard
+            name={friend.name}
+            odds={selectedEventId
+              ? adjustOddsForFriend(
+                  events.find((event) => event.id === selectedEventId)?.bookmakers?.[0]?.markets?.find(
+                    (market) => market.key === 'h2h'
+                  )?.outcomes[0].price,
+                  parseFloat(betAmount),
+                  parseFloat(betAmount)
+                ).toString()
+              : 'TBD'}
+            amount={betAmount || '0'}
+          />
+        </BettersContainer>
         <Select
-          value={selectedEventId}
-          onChange={(e) => setSelectedEventId(e.target.value)}
-          required
-        >
-          <option value="">Select an event</option>
-          {events.map((event) => (
-            <option key={event.id} value={event.id}>{event.name} - Odds: {event.odds}</option>
-          ))}
-        </Select>
+  value={selectedEventId}
+  onChange={(e) => setSelectedEventId(e.target.value)}
+  required
+>
+  <option value="">Select an event</option>
+  {events.map((event) => {
+    // Assuming each event's ID is unique
+    const oddsText = event.bookmakers[0].markets
+      .find((market) => market.key === 'h2h')
+      ?.outcomes.map((outcome, index) => `${outcome.name}: ${outcome.price}`)
+      .join(', ');
+
+    return (
+      <option key={event.id} value={event.id}>
+        {event.name} - Odds: {oddsText || 'N/A'}
+      </option>
+    );
+  })}
+</Select>
         <Input
           type="number"
           value={betAmount}

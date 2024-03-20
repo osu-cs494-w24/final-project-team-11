@@ -1,15 +1,11 @@
-// src/pages/Friends.jsx
-// src/pages/Friends.jsx
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import styled from '@emotion/styled';
-import friendsList from '../friends_page/data/friendsData';
+import friendsList from '../data/friendsData';
 import BetsList from '../components/BetsList';
 import { PlaceBet } from '../components/PlaceBet';
 import { Modal } from '../components/Modal';
 
-// Styled components remain unchanged
-// Styled components
 const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -24,18 +20,18 @@ const FriendsList = styled.ul`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  max-width: 800px; // Adjusted for better layout
+  max-width: 800px;
 `;
 
 const FriendCard = styled.li`
-  background-color: #2d2f34; // Adjusted for a sleek look
+  background-color: #2d2f34;
   color: white;
   border-radius: 8px;
   padding: 15px;
   margin: 10px 0;
   width: 100%;
   display: flex;
-  justify-content: space-around; // Changed to space-around for even spacing
+  justify-content: space-around;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 `;
 
@@ -50,27 +46,27 @@ const Column = styled.div`
 const Name = styled.span`
   font-size: 18px;
   font-weight: bold;
-  color: #e2e8f0; // Lighter shade for better contrast
+  color: #e2e8f0;
 `;
 
 const Username = styled.span`
   font-size: 16px;
-  color: #a0aec0; // A different shade for the username
+  color: #a0aec0;
 `;
 
 const OnlineStatus = styled.span`
-  color: ${props => props.status === 'Online' ? 'limegreen' : 'red'};
+  color: ${(props) => (props.status === 'Online' ? 'limegreen' : 'red')};
   font-weight: bold;
 `;
 
 const BettingHistory = styled.span`
   font-size: 14px;
-  color: #cbd5e1; // Lighter shade for contrast
+  color: #cbd5e1;
 `;
 
 const BetButton = styled.button`
-  background-color: #4fd1c5; // Teal color for visibility
-  color: #2d3748; // Dark gray for the text
+  background-color: #4fd1c5;
+  color: #2d3748;
   border: none;
   border-radius: 8px;
   padding: 8px 16px;
@@ -78,20 +74,17 @@ const BetButton = styled.button`
   transition: background-color 0.3s ease;
 
   &:hover {
-    background-color: #38b2ac; // Darker teal on hover
+    background-color: #38b2ac;
   }
 `;
-
-
-
-
-// Styled components remain the same as provided
 
 export function Friends() {
   const [isBetModalOpen, setIsBetModalOpen] = useState(false);
   const [selectedFriend, setSelectedFriend] = useState(null);
+  const { fetchLiveOdds } = useBetting();
 
-  const handleBetButtonClick = friend => {
+  const handleBetButtonClick = async (friend) => {
+    await fetchLiveOdds();
     setSelectedFriend(friend);
     setIsBetModalOpen(true);
   };
@@ -99,7 +92,7 @@ export function Friends() {
   return (
     <PageContainer>
       <FriendsList>
-        {friendsList.map(friend => (
+        {friendsList.map((friend) => (
           <FriendCard key={friend.id}>
             <Column>
               <Name>{friend.name}</Name>
@@ -120,10 +113,12 @@ export function Friends() {
         ))}
       </FriendsList>
       <BetsList />
-      <main><Outlet /></main>
+      <main>
+        <Outlet />
+      </main>
       <Modal isOpen={isBetModalOpen} onClose={() => setIsBetModalOpen(false)}>
         <PlaceBet friend={selectedFriend} onClose={() => setIsBetModalOpen(false)} />
       </Modal>
     </PageContainer>
   );
-};
+}

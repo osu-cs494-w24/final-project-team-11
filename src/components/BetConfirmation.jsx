@@ -8,7 +8,7 @@ const Container = styled.div`
 `;
 
 const Heading = styled.h2`
-  color: #4CAF50; /* Success color */
+  color: #4CAF50;
 `;
 
 const Details = styled.p`
@@ -24,7 +24,8 @@ export function BetConfirmation() {
       <Heading>Bet Placed Successfully!</Heading>
       <Details>Event: {betDetails.eventName}</Details>
       <Details>Bet Amount: ${betDetails.amount}</Details>
-      <Details>Friends Adjusted Odds: {betDetails.friendOdds}</Details>
+      <Details>Your Adjusted Odds: {betDetails.userOdds}</Details>
+      <Details>Friend's Adjusted Odds: {betDetails.friendOdds}</Details>
     </Container>
   );
 }

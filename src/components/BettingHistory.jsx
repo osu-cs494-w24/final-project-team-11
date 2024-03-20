@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { useBetting } from './BettingContext'; // Adjust the import path as needed
+import { useBetting } from './BettingContext';
 
 const HistoryContainer = styled.div`
   display: flex;
@@ -23,7 +23,7 @@ const BetItem = styled.div`
   border-radius: 5px;
   width: 100%;
   max-width: 600px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
 
 const BetDetail = styled.p`
@@ -32,7 +32,7 @@ const BetDetail = styled.p`
 `;
 
 export default function BettingHistory() {
-  const { bets } = useBetting(); // Using the context to access bets
+  const { bets } = useBetting();
 
   if (!bets || bets.length === 0) {
     return (
@@ -49,10 +49,9 @@ export default function BettingHistory() {
         <BetItem key={index}>
           <BetDetail>Event: {bet.eventName}</BetDetail>
           <BetDetail>Amount Bet: ${bet.amount.toFixed(2)}</BetDetail>
-          <BetDetail>Odds: {bet.userOdds}</BetDetail>
+          <BetDetail>Your Odds: {bet.userOdds}</BetDetail>
           <BetDetail>Friend's Odds: {bet.friendOdds}</BetDetail>
-          {/* Enhance the display of results and winnings if they are present */}
-          {bet.result && <BetDetail>Result: {bet.result === 'win' ? 'Win' : 'Lose'}</BetDetail>}
+          {bet.result && <BetDetail>Result: {bet.result}</BetDetail>}
           {bet.winnings && <BetDetail>Winnings: ${bet.winnings.toFixed(2)}</BetDetail>}
         </BetItem>
       ))}

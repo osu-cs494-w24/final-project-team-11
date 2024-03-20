@@ -1,16 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
-import userReducer from './userSlice';
+import walletReducer from './walletSlice';
+import bettingHistoryReducer from './bettingHistorySlice';
 
-useEffect(() => {
-    const fetchUserData = async () => {
-        try {
-            const userData = await getUserData(); // Assume this function fetches user data
-            dispatch(setUser(userData)); // Update Redux store with user data
-        } catch (error) {
-            console.error("Failed to fetch user data:", error);
-        }
-    };
+const store = configureStore({
+  reducer: {
+    wallet: walletReducer,
+    bettingHistory: bettingHistoryReducer,
+  },
+});
 
-    fetchUserData();
-}, [dispatch]);
-
+export default store;

@@ -7,7 +7,8 @@ const SpinnerContainer = styled.div`
   position: relative;
   margin: 100px auto;
 
-  .double-bounce1, .double-bounce2 {
+  .double-bounce1,
+  .double-bounce2 {
     width: 100%;
     height: 100%;
     border-radius: 50%;
@@ -24,7 +25,8 @@ const SpinnerContainer = styled.div`
   }
 
   @keyframes bounce {
-    0%, 100% {
+    0%,
+    100% {
       transform: scale(0);
     }
     50% {

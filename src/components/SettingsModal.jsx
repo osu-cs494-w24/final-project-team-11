@@ -57,7 +57,6 @@ export default function SettingsModal({ onClose, onThemeChange }) {
         <SettingSection>
           <Button onClick={onThemeChange}>Toggle Theme</Button>
         </SettingSection>
-        {/* Additional settings can be implemented here */}
       </ModalContent>
     </ModalBackdrop>
   );

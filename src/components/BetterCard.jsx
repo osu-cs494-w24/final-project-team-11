@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
 
-// Styled component for the card container
 const CardContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -16,7 +15,6 @@ const CardContainer = styled.div`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;
 
-// Styled components for the text
 const NameText = styled.h2`
   font-size: 20px;
   margin: 5px 0;
@@ -34,7 +32,6 @@ const AmountText = styled.p`
   color: #666;
 `;
 
-// The BetterCard component
 const BetterCard = ({ name, odds, amount }) => {
   return (
     <CardContainer>

@@ -52,24 +52,24 @@ const Button = styled.button`
 `;
 
 export const Modal = ({ children, isOpen, onClose, onConfirm }) => {
-    if (!isOpen) return null;
+  if (!isOpen) return null;
 
-    const handleBackdropClick = (e) => {
-        e.stopPropagation();
-        onClose?.();
-    };
+  const handleBackdropClick = (e) => {
+    e.stopPropagation();
+    onClose?.();
+  };
 
-    const handleBoxClick = (e) => e.stopPropagation();
+  const handleBoxClick = (e) => e.stopPropagation();
 
-    return (
-        <Backdrop onClick={handleBackdropClick}>
-            <ModalBox onClick={handleBoxClick}>
-                {children}
-                <Actions>
-                    <Button onClick={onClose}>Cancel</Button>
-                    {onConfirm && <Button onClick={onConfirm}>Confirm</Button>}
-                </Actions>
-            </ModalBox>
-        </Backdrop>
-    );
+  return (
+    <Backdrop onClick={handleBackdropClick}>
+      <ModalBox onClick={handleBoxClick}>
+        {children}
+        <Actions>
+          <Button onClick={onClose}>Cancel</Button>
+          {onConfirm && <Button onClick={onConfirm}>Confirm</Button>}
+        </Actions>
+      </ModalBox>
+    </Backdrop>
+  );
 };
