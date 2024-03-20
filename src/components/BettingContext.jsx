@@ -82,6 +82,10 @@ export const BettingProvider = ({ children }) => {
 
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    setFriends(friendsList) 
+  });
+
   const placeBetAsync = async (betDetails) => {
     try {
       setBets((prevBets) => [...prevBets, betDetails]);
