@@ -1,8 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
-import UserInformation from '../components/UserInformation';
-import WalletBalance from '../components/WalletBalance';
+import UserInformation from '../profile_page/UserInformation';
+import WalletBalance from '../profile_page/WalletBalance';
 import BettingHistory from '../components/BettingHistory';
 import Settings from '../components/Settings';
 
@@ -45,6 +45,7 @@ const Title = styled.h2`
 
 export function Profile() {
   const user = useSelector((state) => state.user.user);
+  const bets = useSelector((state) => state.bettingHistory);
 
   if (!user) {
     return <div>Loading...</div>;
@@ -54,7 +55,7 @@ export function Profile() {
     <ProfileContainer>
       <Sidebar>
         <UserInformation user={user} />
-        <WalletBalance balance={user.balance} />
+       
         <Settings />
       </Sidebar>
       <MainContent>

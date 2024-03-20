@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import styled from '@emotion/styled';
-import friendsList from '../data/friendsData';
+import friendsList from '../friends_page/data/friendsData';
 import BetsList from '../components/BetsList';
 import { PlaceBet } from '../components/PlaceBet';
 import { Modal } from '../components/Modal';
+import { useBetting } from '../components/BettingContext';
 
 const PageContainer = styled.div`
   display: flex;
@@ -81,10 +82,9 @@ const BetButton = styled.button`
 export function Friends() {
   const [isBetModalOpen, setIsBetModalOpen] = useState(false);
   const [selectedFriend, setSelectedFriend] = useState(null);
-  const { fetchLiveOdds } = useBetting();
+  const { events } = useBetting();
 
-  const handleBetButtonClick = async (friend) => {
-    await fetchLiveOdds();
+  const handleBetButtonClick = (friend) => {
     setSelectedFriend(friend);
     setIsBetModalOpen(true);
   };

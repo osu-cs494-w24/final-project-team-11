@@ -1,17 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const walletSlice = createSlice ({
-    name: 'wallet',
-    initialState: {
-        balance: 1000,
+const walletSlice = createSlice({
+  name: 'wallet',
+  initialState: {
+    balance: 1000, // Set the initial balance
+  },
+  reducers: {
+    decreaseBalance: (state, action) => {
+      state.balance -= action.payload;
     },
-
-    reducers: {
-        decreaseBalance(state, action) {
-            state.balance -= action.payload;
-        },
-        //leave for depostiing and withdrawing
-    }
+  },
 });
 
 export const { decreaseBalance } = walletSlice.actions;

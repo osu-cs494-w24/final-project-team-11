@@ -2,26 +2,38 @@ import React from 'react';
 import styled from '@emotion/styled';
 
 const SettingsContainer = styled.div`
-  margin-top: 20px;
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* min-height: 100vh; */
+  background-color: #1c1c1c;
+  color: white;
+  padding: 20px;
 `;
 
 const SettingItem = styled.div`
-  background-color: #282c34;
-  color: white;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 8px;
+  background-color: #2d2d2d;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 `;
 
 const Button = styled.button`
-  padding: 5px 10px;
+  padding: 15px 30px;
   border: none;
   border-radius: 5px;
   background-color: #ef4444;
   color: white;
   cursor: pointer;
   width: 100%;
+  font-size: 18px;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: background-color 0.3s;
 
   &:hover {
     background-color: #dc2626;

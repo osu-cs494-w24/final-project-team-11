@@ -1,38 +1,41 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { useBetting } from './BettingContext';
+import { useSelector } from 'react-redux';
 
 const HistoryContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  width: 100%;
+  width: 95%;
+  background-color: #1c1c1c;
+  color: white;
 `;
 
 const HistoryTitle = styled.h2`
-  color: #333;
+  font-size: 24px;
   margin-bottom: 20px;
+  text-transform: uppercase;
 `;
 
 const BetItem = styled.div`
-  background-color: #fff;
-  border: 1px solid #ddd;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 5px;
+  background-color: #2d2d2d;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
   width: 100%;
   max-width: 600px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 `;
 
 const BetDetail = styled.p`
   margin: 5px 0;
-  color: #666;
+  color: #e0e0e0;
+  font-size: 18px;
 `;
 
 export default function BettingHistory() {
-  const { bets } = useBetting();
+  const bets = useSelector((state) => state.bettingHistory);
 
   if (!bets || bets.length === 0) {
     return (

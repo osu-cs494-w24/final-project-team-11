@@ -4,12 +4,12 @@ const bettingHistorySlice = createSlice({
   name: 'bettingHistory',
   initialState: [],
   reducers: {
-    addBet: (state, action) => {
+    placeBet: (state, action) => {
       state.push(action.payload);
     },
   },
 });
 
-export const { addBet } = bettingHistorySlice.actions;
+export const { placeBet } = bettingHistorySlice.actions;
 
 export default bettingHistorySlice.reducer;

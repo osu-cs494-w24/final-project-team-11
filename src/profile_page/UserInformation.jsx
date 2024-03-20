@@ -1,53 +1,60 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
-import myProfilePic from '../../assets/images/myProfilePic.jpg'; // Adjust the path based on your structure
-
+import myProfilePic from '../assets/myProfilePic.jpg';
 
 const UserInfoContainer = styled.div`
-  background: #222831;
-  padding: 20px;
+  background: #2d2d2d;
+  padding: 30px;
   border-radius: 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  gap: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  color: white;
 `;
 
 const ProfilePic = styled.img`
   border-radius: 50%;
-  width: 120px;
-  height: 120px;
+  width: 150px;
+  height: 150px;
   object-fit: cover;
-  border: 4px solid #00adb5; /* Accent color */
+  border: 6px solid #00adb5; /* Accent color */
 `;
 
 const UserName = styled.h2`
   color: #eeeeee;
-  margin: 10px 0 5px 0;
+  margin: 10px 0;
+  font-size: 24px;
+  text-transform: uppercase;
 `;
 
 const UserEmail = styled.p`
   color: #aaaaaa;
-  font-size: 0.9rem;
+  font-size: 18px;
 `;
 
 const UserStatus = styled.span`
   background-color: #00adb5;
   color: #222831;
-  padding: 5px 15px;
+  padding: 10px 20px;
   border-radius: 20px;
   font-weight: bold;
-  font-size: 0.8rem;
+  font-size: 16px;
 `;
 
-export default function UserInformation({ user }) {
-    return (
-      <UserInfoContainer>
-        <ProfilePic src={user.profilePic || myProfilePic} alt="Profile" />
-        <UserName>{user.name}</UserName>
-        <UserEmail>{user.email}</UserEmail>
-        {/* Additional elements... */}
-      </UserInfoContainer>
-    );
-  }
+export default function UserInformation() {
+  // Accessing the user state from the Redux store
+  const user = useSelector((state) => state.user.user);
+
+  return (
+    <UserInfoContainer>
+      <ProfilePic src={user.profilePic || myProfilePic} alt="Profile" />
+      <UserName>{user.name}</UserName>
+      <UserEmail>{user.email}</UserEmail>
+      <UserStatus>Balance: ${user.balance.toFixed(2)}</UserStatus>
+      {/* You can add more user information elements here */}
+    </UserInfoContainer>
+  );
+}

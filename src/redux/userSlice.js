@@ -15,9 +15,18 @@ export const userSlice = createSlice({
     updateBalance: (state, action) => {
       state.user.balance += action.payload;
     },
+    placeBet: (state, action) => {
+      // Assuming the bet amount is deducted from the user's balance
+      const betAmount = action.payload.amount;
+      if(state.user.balance >= betAmount) {
+        state.user.balance -= betAmount;
+      } else {
+        console.error("Insufficient balance");
+      }
+    },
   },
 });
 
-export const { updateBalance } = userSlice.actions;
+export const { updateBalance, placeBet } = userSlice.actions;
 
 export default userSlice.reducer;
